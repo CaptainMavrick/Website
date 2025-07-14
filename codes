@@ -1,0 +1,114 @@
+import React, { useEffect, useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { motion } from "framer-motion";
+
+const salesData = [
+  { month: "Jan", Ford: 15000, HP: 12000 },
+  { month: "Feb", Ford: 17000, HP: 14000 },
+  { month: "Mar", Ford: 19000, HP: 13500 },
+  { month: "Apr", Ford: 22000, HP: 14500 },
+  { month: "May", Ford: 24000, HP: 16000 },
+  { month: "Jun", Ford: 18000, HP: 15500 },
+  { month: "Jul", Ford: 25000, HP: 17500 },
+  { month: "Aug", Ford: 23000, HP: 19000 },
+  { month: "Sep", Ford: 21000, HP: 18500 },
+  { month: "Oct", Ford: 20000, HP: 20000 },
+  { month: "Nov", Ford: 19500, HP: 21000 },
+  { month: "Dec", Ford: 26000, HP: 22000 },
+];
+
+const COLORS = ["#0088FE", "#00C49F"];
+
+const pieData = [
+  { name: "Technical Roles", value: 60 },
+  { name: "Non-Technical Roles", value: 40 },
+];
+
+export default function SalesDashboard() {
+  return (
+    <div className="p-6 space-y-6">
+      <motion.h1 className="text-3xl font-bold text-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+        🚀 Sales & Data Analysis Learning Dashboard
+      </motion.h1>
+      <p className="text-center text-gray-600">Explore data trends, company insights, and role breakdowns. Level up your data intuition with every click!</p>
+
+      <Tabs defaultValue="overview">
+        <TabsList className="grid grid-cols-3 w-full">
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="ford">Ford Motor</TabsTrigger>
+          <TabsTrigger value="hp">HP Inc.</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="overview">
+          <Card>
+            <CardContent className="p-4">
+              <h2 className="text-xl font-semibold mb-2">Technical vs Non-Technical Role Distribution</h2>
+              <p className="mb-4 text-gray-500">Understand the workforce structure commonly found in corporations like Ford and HP. This can shape how you target data analysis depending on audience needs.</p>
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie data={pieData} cx="50%" cy="50%" outerRadius={80} fill="#8884d8" dataKey="value" label>
+                    {pieData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="ford">
+          <Card>
+            <CardContent className="p-4">
+              <h2 className="text-xl font-semibold mb-2">Ford Motor Monthly Sales Trends</h2>
+              <p className="mb-4 text-gray-500">Track how Ford's performance shifts through the year to identify operational peaks and slowdowns. Perfect for creating predictive models or planning campaigns.</p>
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={salesData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Line type="monotone" dataKey="Ford" stroke="#0088FE" strokeWidth={2} />
+                </LineChart>
+              </ResponsiveContainer>
+              <div className="mt-4 text-sm text-gray-600">
+                <p>📈 <strong>Highest Sales:</strong> July and December — ideal periods for new product launches or promotions.</p>
+                <p>📉 <strong>Lowest Sales:</strong> June — consider evaluating sales strategy or seasonal factors here.</p>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="hp">
+          <Card>
+            <CardContent className="p-4">
+              <h2 className="text-xl font-semibold mb-2">HP Inc. Monthly Sales Trends</h2>
+              <p className="mb-4 text-gray-500">Understand how consumer electronics and tech cycles affect HP's revenue. Great for competitive analysis and market alignment.</p>
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={salesData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip />
+                  <Legend />
+                  <Line type="monotone" dataKey="HP" stroke="#00C49F" strokeWidth={2} />
+                </LineChart>
+              </ResponsiveContainer>
+              <div className="mt-4 text-sm text-gray-600">
+                <p>📈 <strong>Peak Month:</strong> December — capitalize on holiday sales and year-end upgrades.</p>
+                <p>📉 <strong>Slowest Month:</strong> March — use this period to optimize stock and marketing strategies.</p>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
+
+      <div className="text-center pt-4 text-gray-700">
+        🌟 Every insight you unlock helps you think like an analyst. Keep exploring to level up!
+      </div>
+    </div>
+  );
+}
